@@ -1,27 +1,45 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import ApiResponse from "./Utils/ApiResponse.js";
+
 const app = express();
-app.use(express.json());
 app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+  express.json({
+    extended: true,
+    limit: "16kb",
   })
 );
-app.use(express.static("./public/"));
-app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-app.use(cookieParser());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://cosmic-frangipane-73525a.netlify.app",
+    ],
+    credentials: true,
+    sameSite: "None",
+  })
+);
+app.use(express.static("./public/temp"));
+app.use(
+  express.urlencoded({
+    extended: true,
+    limit: "16kb",
+  })
+);
 
-// import router
-import userRouter from "./Routes/user.routes.js";
+app.use(
+  cookieParser({
+    secure: false,
+    httpOnly: true,
+  })
+);
+// Import All routes
 
-// define routes
-app.use("/api/v1/user", userRouter);
-
+import userRoute from "./route/user.route.js";
+import ApiResponse from "./utils/ApiResponse.js";
+app.use("/api/v1/user", userRoute);
+// https://daily-lens-server.vercel.app/api/v1/news/post
 app.get("/", (req, res) => {
-  res.status(200).json(new ApiResponse(200, "Welcome to Daily Lens API"));
+  res.status(200).json(new ApiResponse(200, {}, "Welcome to Daily Lens API"));
 });
 export default app;
