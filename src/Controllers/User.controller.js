@@ -1,6 +1,6 @@
-import User from "../Models/user.models";
-import ApiError from "../Utils/ApiError";
-import ApiResponse from "../Utils/ApiResponse";
+import User from "../Models/user.models.js";
+import ApiError from "../Utils/ApiError.js";
+import ApiResponse from "../Utils/ApiResponse.js";
 
 const registerUser = async (req, res) => {
   const { fullName, email, password, confirmPassword } = req.body;
