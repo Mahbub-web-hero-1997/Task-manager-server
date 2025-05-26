@@ -4,7 +4,7 @@ import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 // Create A Task
 const createTask = asyncHandler(async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, status } = req.body;
   if (!title) {
     throw new ApiError(400, "Title is required");
   }
@@ -15,6 +15,8 @@ const createTask = asyncHandler(async (req, res) => {
   const task = await Task.create({
     title,
     description,
+    status,
+    user: req.user._id,
   });
   res.status(200).json(new ApiResponse(200, task, "Task created successfully"));
 });
@@ -22,7 +24,7 @@ const createTask = asyncHandler(async (req, res) => {
 // Get All task
 
 const getAllTask = asyncHandler(async (req, res) => {
-  const task = await Task.find();
+  const task = await Task.find({ user: req.user._id });
   if (!task || !task.length) return "No task available";
   res.status(200).json(new ApiResponse(200, task, "All task fetched"));
 });
@@ -74,4 +76,28 @@ const deleteTask = asyncHandler(async (req, res) => {
   }
   res.status(200).json(new ApiResponse(200, null, "task deleted successfully"));
 });
-export { createTask, getAllTask, getSingleTask, updateTask, deleteTask };
+
+// update Task Status
+const updateTaskStatus = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  if (!["pending", "completed"].includes(status)) {
+    throw new ApiError(400, "Invalid status");
+  }
+  const task = await Task.findByIdAndUpdate({ _id: id, user: req.user._id });
+  if (!task) {
+    throw new ApiError(404, "Task not found");
+  }
+  task.status = status;
+  task.updatedAt = Date.now();
+  await task.save();
+  res.status(200).json(new ApiResponse(200, task, "Task status updated"));
+});
+export {
+  createTask,
+  getAllTask,
+  getSingleTask,
+  updateTask,
+  deleteTask,
+  updateTaskStatus,
+};

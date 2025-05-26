@@ -16,6 +16,7 @@ const verifyJwt = asyncHandler(async (req, _, next) => {
     throw new ApiError(401, "Unauthorized access, user not found");
   }
   req.user = user;
+  console.log(user);
   next();
 });
 export default verifyJwt;
