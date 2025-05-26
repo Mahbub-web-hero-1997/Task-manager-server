@@ -9,7 +9,6 @@ import {
 } from "../controllers/user.controller.js";
 import upload from "../middleware/multer.middleware.js";
 import verifyJwt from "../middleware/auth.middleware.js";
-import authorizedRoles from "../middleware/role.middleware.js";
 
 const router = Router();
 router.route("/register").post(registerUser);

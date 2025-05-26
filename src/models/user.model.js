@@ -19,6 +19,10 @@ const userSchema = new Schema(
       // minlength: 8,
       // match: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
     },
+    profilePicture: {
+      type: String,
+      default: "Photo",
+    },
     confirmPassword: {
       type: String,
       required: true,

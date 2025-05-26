@@ -22,7 +22,8 @@ const generateAccessAndRefreshToken = async (userId) => {
 
 // User Register Api
 const registerUser = asyncHandler(async (req, res) => {
-  const { fullName, email, password, confirmPassword } = req.body;
+  const { fullName, email, password, confirmPassword, profilePicture } =
+    req.body;
   // Validation check if form empty or a whitespace
   if (!fullName || !email || !password || !confirmPassword) {
     throw new ApiError(400, "All fields are required");
@@ -39,18 +40,11 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existingUser) {
     throw new ApiError(400, "Email already exists");
   }
-  // Load Profile Picture
-  // const profilePictureFilePath = req.file?.path;
-  // console.log(req.file.path);
-  // if (!profilePictureFilePath) {
-  //   throw new ApiError(400, "Profile picture is required");
-  // }
-  // const profilePicture = await uploadOnCloudinary(profilePictureFilePath);
-  // console.log(profilePicture);
   const user = await User.create({
     fullName,
     email,
     password,
+    profilePicture,
     confirmPassword,
   });
   const createUser = await User.findById(user._id).select(
