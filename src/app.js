@@ -36,8 +36,10 @@ app.use(
 // Import All routes
 
 import userRoute from "./route/user.route.js";
+import taskRoute from "./route/task.route.js";
 import ApiResponse from "./utils/ApiResponse.js";
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/task", taskRoute);
 // https://daily-lens-server.vercel.app/api/v1/news/post
 app.get("/", (req, res) => {
   res.status(200).json(new ApiResponse(200, {}, "Welcome to Daily Lens API"));
