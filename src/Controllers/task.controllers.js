@@ -84,7 +84,12 @@ const updateTaskStatus = asyncHandler(async (req, res) => {
   if (!["pending", "completed"].includes(status)) {
     throw new ApiError(400, "Invalid status");
   }
-  const task = await Task.findByIdAndUpdate({ _id: id, user: req.user._id });
+  const task = await Task.findOneAndUpdate(
+    { _id: id, user: req.user._id },
+    { status, updatedAt: Date.now() },
+    { new: true } // returns the updated doc
+  );
+
   if (!task) {
     throw new ApiError(404, "Task not found");
   }

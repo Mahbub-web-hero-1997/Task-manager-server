@@ -21,7 +21,8 @@ const userSchema = new Schema(
     },
     profilePicture: {
       type: String,
-      default: "Photo",
+      default:
+        "https://res.cloudinary.com/mahbub1997/image/upload/v1748316736/bsdz2bdfuhbwelwbyvwh.jpg",
     },
     confirmPassword: {
       type: String,
