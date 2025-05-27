@@ -64,6 +64,3 @@ task-manager/
 ├── route/ # Express routes (userRoutes, taskRoutes)
 └── index.js # Entry point of the Express server
 
-yaml
-Copy
-Edit
