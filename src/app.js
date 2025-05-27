@@ -13,7 +13,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://cosmic-frangipane-73525a.netlify.app",
+      "https://task-manager-client-zeta-five.vercel.app",
     ],
     credentials: true,
     sameSite: "None",
