@@ -13,7 +13,6 @@ app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(cookieParser());
 
-// Allowed origins
 const allowedOrigins = [
   "http://localhost:5173",
   "https://task-manager-client-zeta-five.vercel.app",
@@ -22,14 +21,13 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Postman or direct curl requests will have origin null
-      if (!origin) return callback(null, true);
+      if (!origin) return callback(null, true); // Postman বা direct curl request এর জন্য
       if (allowedOrigins.indexOf(origin) === -1) {
         return callback(new Error("Not allowed by CORS"), false);
       }
       return callback(null, true);
     },
-    credentials: true, // allow cookies to be sent
+    credentials: true, // cookie allow করতে
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
